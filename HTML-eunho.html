@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>AI web - 홈 (통합)</title>
+    
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            margin: 0; 
+            background-color: #ffffff; 
+            text-align: center; 
+        }
+
+        /* 1. 내비게이션 스타일 */
+        nav {
+            width: 800px; 
+            margin: 0 auto;
+            background-color: #000000;
+            padding: 10px 0;
+            margin-top: 150px; 
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0; 
+            margin: 0; 
+            text-align: center; 
+        }
+        nav li {
+            display: inline-block;
+            padding: 0; 
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer; 
+            display: block; 
+            padding: 10px 20px; 
+            background-color: #000000; 
+            margin: 0 5px; 
+            border-radius: 3px;
+        }
+        nav a:hover {
+            background-color: #1abc9c;
+            border-radius: 3px;
+        }
+
+        /* 2. 콘텐츠 박스 공통 스타일 */
+        .content-container {
+            width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-height: 350px;
+        }
+
+        /* 3. 콘텐츠 전환용 클래스 (JS가 이 클래스를 제어합니다) */
+        /* !important를 사용하여 확실하게 숨김/표시를 강제합니다. */
+        .hidden-content {
+            display: none !important;
+        }
+        .visible-content {
+            display: block !important;
+        }
+
+        /* 4. 홈 화면 스타일 */
+        #home-title-section {
+            padding-top: 50px;
+        }
+        #home-title-section h1 {
+            color: #000000; 
+            font-size: 3.5em; 
+        }
+
+        /* 5. Gemini 콘텐츠 스타일 */
+        #gemini-section {
+            padding-top: 20px;
+        }
+        #gemini-section h2 { 
+            color: #1a73e8; 
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        .gemini-image {
+            width: 500px; 
+            display: block; 
+            margin: 20px auto; 
+        }
+        #intro-text-detail {
+            width: 700px; 
+            margin: 40px auto 20px auto; 
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.5; 
+        } 
+    </style>
+    
+    <script>
+        function showContent(contentId) {
+            // 모든 섹션을 배열에 정의 (새로운 섹션 추가 시 여기에 ID를 추가하세요)
+            const allSections = ['home-title-section', 'gemini-section'];
+
+            allSections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                
+                if (sectionId === contentId) {
+                    // 요청된 콘텐츠만 보이게 함
+                    element.classList.remove('hidden-content');
+                    element.classList.add('visible-content');
+                } else {
+                    // 나머지 모든 섹션을 숨김
+                    element.classList.remove('visible-content');
+                    element.classList.add('hidden-content');
+                }
+            });
+        }
+
+        // 페이지 로드 시 홈 화면이 보이도록 초기화
+        window.onload = function() {
+            showContent('home-title-section');
+        }
+    </script>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a onclick="showContent('home-title-section')">홈</a></li> 
+            <li><a onclick="alert('GPT 페이지 준비 중...')">GPT</a></li> 
+            <li><a onclick="showContent('gemini-section')">Gemini</a></li> 
+            <li><a onclick="alert('oo.ai 페이지 준비 중...')">oo.ai</a></li> 
+        </ul>
+    </nav>
+    
+    <div class="content-container">
+        
+        <section id="home-title-section" class="visible-content">
+            <h1 class="main-title">생성형 AI</h1>
+            <p>AI 모델을 선택하여 상세 정보를 확인하세요.</p>
+        </section>
+
+        <section id="gemini-section" class="hidden-content">
+            
+            <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="gemini-image">
+            
+            <p id="intro-text-detail">
+                Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델입니다.<br>
+                더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용됩니다.
+            </p>
+            
+            <h2>Gemini의 주요 성능</h2>
+            <p id="performance-text">
+                Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델입니다. 
+                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
+            </p>
+        </section>
+        
+    </div>
+</body>
+</html>
