@@ -35,12 +35,12 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
+            cursor: pointer; 
             display: block; 
             padding: 10px 20px; 
             background-color: #000000; 
             margin: 0 5px; 
             border-radius: 3px;
-            cursor: pointer; /* 클릭 가능 표시 */
         }
         nav a:hover {
             background-color: #1abc9c;
@@ -58,7 +58,7 @@
             min-height: 350px;
         }
 
-        /* 3. 콘텐츠 전환용 클래스 (JS 없이 CSS로만 제어) */
+        /* 3. 콘텐츠 전환용 클래스 (JS가 이 클래스를 제어합니다) */
         .hidden-content {
             display: none !important;
         }
@@ -80,11 +80,13 @@
             padding-top: 20px;
         }
         .gemini-image {
-            width: 150px; 
+            width: 500px; 
             display: block; 
             margin: 20px auto; 
         }
-        h1 { /* Gemini 상세 h1 */
+        
+        /* 6. Gemini 상세 h1 스타일 (사용되지 않으나 정의는 유지) */
+        h1 { 
             color: #2c3e50; 
             font-size: 2.5em; 
             margin-bottom: 20px;
@@ -100,19 +102,21 @@
     
     <script>
         function showContent(contentId) {
-            // 모든 섹션을 숨깁니다.
-            document.getElementById('home-title-section').classList.remove('visible-content');
-            document.getElementById('home-title-section').classList.add('hidden-content');
-            document.getElementById('gemini-section').classList.remove('visible-content');
-            document.getElementById('gemini-section').classList.add('hidden-content');
+            const allSections = ['home-title-section', 'gemini-section'];
 
-            // 요청된 콘텐츠만 보이게 합니다.
-            document.getElementById(contentId).classList.remove('hidden-content');
-            document.getElementById(contentId).classList.add('visible-content');
+            allSections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                
+                if (sectionId === contentId) {
+                    element.classList.remove('hidden-content');
+                    element.classList.add('visible-content');
+                } else {
+                    element.classList.remove('visible-content');
+                    element.classList.add('hidden-content');
+                }
+            });
         }
 
-        // 페이지 로드 시 홈 화면이 보이도록 초기화합니다.
-        // 이 함수가 실행되지 않아 화면이 비는 문제가 있었으므로, 초기 클래스를 명시합니다.
         window.onload = function() {
             showContent('home-title-section'); // 홈 화면을 초기화합니다.
         }
@@ -133,12 +137,10 @@
         
         <section id="home-title-section" class="visible-content">
             <h1 class="main-title">생성형 AI</h1>
-            <p>AI 모델을 선택하여 상세 정보를 확인하세요.</p>
+            <p>AI 모델을 선택하여 상세 정보를 확인하세요。</p>
         </section>
 
         <section id="gemini-section" class="hidden-content">
-            <h1>Gemini 소개</h1>
-            
             <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="gemini-image">
             
             <p id="intro-text-detail">
@@ -146,6 +148,7 @@
                 더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용됩니다.
             </p>
         </section>
+        
     </div>
 </body>
 </html>
