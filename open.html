@@ -1,57 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <title>AI web</title>
+    
     <style>
         body {
             font-family: 'Malgun Gothic', sans-serif;
-            margin: 0;
-            background-color: #ffffff;
-            text-align: center;
+            margin: 0; 
+            background-color: #ffffff; 
+            text-align: center; 
         }
- h1 {
-          
+
+        /* 1. 내비게이션 스타일 */
+        nav {
+            width: 800px; 
+            margin: 0 auto;
+            background-color: #34495e;
+            padding: 10px 0;
+            /* ✨ 핵심 수정: margin-top을 150px에서 120px로 줄여 전체 메뉴를 위로 이동 */
+            margin-top: 60px; 
+            border-radius: 5px 5px 0 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav li {
+            display: inline-block;
+            padding: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        h1 {
             color: #2c3e50; 
             text-align: center; 
             font-size: 2.5em; 
             
-            
-            padding-top: 150px; 
-            
+            padding-top: 50px; 
             
             width: 800px; 
             height: 350px; 
-            margin: 50px auto 0 auto; 
+            
+            margin: 10px auto 0 auto; 
             
             background-image: url('https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png');
-            
-           
             background-size: contain; 
             background-repeat: no-repeat; 
-            
-            
             background-position: center bottom; 
             
-            border-radius: 10px; 
+            border-radius: 0 0 10px 10px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        
+        /* 소개글 스타일 */
         #intro-text {
             width: 800px; 
             margin: 20px auto;
             font-size: 1.1em;
             color: #555;
             line-height: 1.5; 
-        }       
+        } 
     </style>
-</head>    
-<body>
-    <h1>생성형 AI</h1>
+</head>
 
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">홈</a></li>
+            <li><a href="#">GPT</a></li>
+            <li><a href="#">Gemini</a></li>
+            <li><a href="#">oo.ai</a></li>
+        </ul>
+    </nav>
+    
+    <h1></h1>
+    
     <p id="intro-text">
-        Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델로, <br>
-        복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공한다. 
+        Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델입니다.<br>
+        더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공합니다.
     </p>
-</body>  
+</body>
 </html>
