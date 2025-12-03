@@ -59,7 +59,6 @@
         }
 
         /* 3. 콘텐츠 전환용 클래스 (JS가 이 클래스를 제어합니다) */
-        /* !important를 사용하여 확실하게 숨김/표시를 강제합니다. */
         .hidden-content {
             display: none !important;
         }
@@ -91,37 +90,42 @@
             display: block; 
             margin: 20px auto; 
         }
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail {
+        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list {
             width: 700px; 
             margin: 20px auto; 
             font-size: 1.1em;
             color: #555;
             line-height: 1.5; 
-            text-align: left; /* 텍스트 정렬을 왼쪽으로 변경하여 가독성 높임 */
+            text-align: left; 
         } 
+        /* 추가: 리스트 스타일 조정 */
+        #version-list ul {
+            list-style-type: disc; /* 검은 점 목록 */
+            padding-left: 20px;
+            margin-left: 20px;
+        }
+        #version-list li {
+            margin-bottom: 8px;
+        }
     </style>
     
     <script>
         function showContent(contentId) {
-            // 모든 섹션을 배열에 정의 (새로운 섹션 추가 시 여기에 ID를 추가하세요)
             const allSections = ['home-title-section', 'gemini-section'];
 
             allSections.forEach(sectionId => {
                 const element = document.getElementById(sectionId);
                 
                 if (sectionId === contentId) {
-                    // 요청된 콘텐츠만 보이게 함
                     element.classList.remove('hidden-content');
                     element.classList.add('visible-content');
                 } else {
-                    // 나머지 모든 섹션을 숨김
                     element.classList.remove('visible-content');
                     element.classList.add('hidden-content');
                 }
             });
         }
 
-        // 페이지 로드 시 홈 화면이 보이도록 초기화
         window.onload = function() {
             showContent('home-title-section');
         }
@@ -155,17 +159,32 @@
                 더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용됩니다.
             </p>
             
+            <h2>Gemini의 주요 성능</h2>
+            <p id="performance-text-detail">
+                Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델입니다. <br>
+                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
+            </p>
+            
             <h2>Gemini 작동 원리</h2>
             <p id="mechanism-text-detail">
                 Gemini는 **멀티모달리티(Multimodality)**를 기반으로 작동합니다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
                 **하나의 통합된 아키텍처** 내에서 학습되고 처리된다는 것을 의미합니다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능합니다.
             </p>
             
-            <h2>Gemini의 주요 성능</h2>
-            <p id="performance-text-detail">
-                Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델입니다. <br>
-                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
-            </p>
+            <h2>Gemini 버전별 특징</h2>
+            <div id="version-list">
+                <ul>
+                    <li>
+                        <strong>Gemini Ultra:</strong> 가장 크고 강력한 버전으로, 매우 복잡한 작업을 위해 설계되었습니다. 대규모 추론 능력이 필요한 작업에 주로 사용됩니다. (유료/고성능)
+                    </li>
+                    <li>
+                        <strong>Gemini Pro:</strong> 다양한 작업에서 최고의 성능과 효율성 사이의 균형을 제공합니다. 대부분의 일반적인 AI 서비스에 사용됩니다. (무료 및 유료 서비스의 기반)
+                    </li>
+                    <li>
+                        <strong>Gemini Nano:</strong> 장치 내(On-device) AI를 위해 설계된 가장 효율적인 모델입니다. 스마트폰과 같은 기기에서 직접 구동되어 속도가 빠릅니다. (장치 내 무료)
+                    </li>
+                </ul>
+            </div>
         </section>
         
     </div>
