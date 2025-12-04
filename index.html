@@ -1,9 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>AI web - 홈 (통합)</title>
+    <meta charset="UTF-8">
+    <title>AI 기술 탐구 - 통합 홈</title>
     
     <style>
+        /* [공통 스타일] */
         body {
             font-family: 'Malgun Gothic', sans-serif;
             margin: 0; 
@@ -11,13 +13,13 @@
             text-align: center; 
         }
 
-        /* 1. 내비게이션 스타일 */
+        /* 1. 내비게이션바 */
         nav {
             width: 800px; 
             margin: 0 auto;
             background-color: #000000;
             padding: 10px 0;
-            margin-top: 150px; 
+            margin-top: 60px;
             border-radius: 5px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -38,16 +40,15 @@
             cursor: pointer; 
             display: block; 
             padding: 10px 20px; 
-            background-color: #000000; 
             margin: 0 5px; 
             border-radius: 3px;
+            transition: background-color 0.3s;
         }
         nav a:hover {
             background-color: #1abc9c;
-            border-radius: 3px;
         }
 
-        /* 2. 콘텐츠 박스 공통 스타일 */
+        /* 2. 콘텐츠 박스 */
         .content-container {
             width: 800px;
             margin: 30px auto;
@@ -55,63 +56,85 @@
             background-color: #f8f8f8;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            min-height: 350px;
+            min-height: 400px;
+            box-sizing: border-box;
         }
 
-        /* 3. 콘텐츠 전환용 클래스 (JS가 이 클래스를 제어합니다) */
+        /* 3. 화면 전환용 유틸리티 클래스 */
         .hidden-content {
             display: none !important;
         }
         .visible-content {
             display: block !important;
+            animation: fadeIn 0.5s;
         }
 
-        /* 4. 홈 화면 스타일 */
-        #home-title-section {
-            padding-top: 50px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        #home-title-section h1 {
+
+        /* 4. 각 섹션별 스타일 */
+        h1.main-title {
             color: #000000; 
             font-size: 3.5em; 
+            margin-top: 50px;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            display: inline-block;
         }
 
-        /* 5. Gemini 콘텐츠 스타일 */
-        #gemini-section {
-            padding-top: 20px;
-        }
-        #gemini-section h2 { 
-            color: #1869d4; 
-            font-size: 1.8em;
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
-        .gemini-image {
-            width: 500px; 
+        /* 모델별 포인트 컬러 */
+        .gpt-title { color: #00a67e; border-color: #00a67e; }
+        .gemini-title { color: #1869d4; border-color: #1869d4; }
+        .ooai-title { color: #f39c12; border-color: #f39c12; }
+
+        .model-image {
+            max-width: 500px; 
+            width: 100%;
             display: block; 
-            margin: 20px auto; 
+            margin: 20px auto;
+            border-radius: 10px;
         }
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list {
-            width: 700px; 
+
+        p.description {
+            width: 90%; 
             margin: 20px auto; 
             font-size: 1.1em;
             color: #555;
-            line-height: 1.5; 
+            line-height: 1.6; 
             text-align: left; 
-        } 
-        /* 추가: 리스트 스타일 조정 */
-        #version-list ul {
-            list-style-type: disc; /* 검은 점 목록 */
-            padding-left: 20px;
-            margin-left: 20px;
+            word-break: keep-all;
         }
-        #version-list li {
-            margin-bottom: 8px;
+
+        /* 리스트 스타일 */
+        .feature-list {
+            width: 90%;
+            margin: 0 auto;
+            text-align: left;
+            line-height: 1.6;
+            color: #555;
+        }
+        .feature-list ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
         }
     </style>
     
     <script>
+        // 메뉴 클릭 시 해당 섹션만 보여주는 함수
         function showContent(contentId) {
-            const allSections = ['home-title-section', 'gpt-section', 'gemini-section'];
+            // 관리할 모든 섹션의 ID 목록
+            const allSections = ['home-title-section', 'gpt-section', 'gemini-section', 'ooai-section'];
 
             allSections.forEach(sectionId => {
                 const element = document.getElementById(sectionId);
@@ -126,6 +149,7 @@
             });
         }
 
+        // 페이지 로드 시 홈 화면 보여주기
         window.onload = function() {
             showContent('home-title-section');
         }
@@ -138,99 +162,89 @@
             <li><a onclick="showContent('home-title-section')">홈</a></li> 
             <li><a onclick="showContent('gpt-section')">GPT</a></li> 
             <li><a onclick="showContent('gemini-section')">Gemini</a></li> 
-            <li><a onclick="alert('oo.ai 페이지 준비 중...')">oo.ai</a></li> 
+            <li><a onclick="showContent('ooai-section')">oo.ai</a></li> 
         </ul>
     </nav>
     
     <div class="content-container">
         
         <section id="home-title-section" class="visible-content">
-            <h1 class="main-title">생성형 AI</h1>
-            <p>AI 모델을 선택하여 상세 정보를 확인하세요.</p>
+            <h1 class="main-title">생성형 AI 탐구</h1>
+            <p style="font-size: 1.2em; color: #666; margin-top: 20px;">
+                상단의 메뉴를 클릭하여<br>각 AI 모델의 상세 정보를 확인하세요.
+            </p>
         </section>
 
         <section id="gpt-section" class="hidden-content">
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT 소개
-        </h2>
-         <h2></h2>
-            <img src="https://i.ibb.co/23N0qWNb/Kakao-Talk-20251204-005316171.jpg" alt="GPT 로고" class="gpt-image"/>
-            
+            <h2 class="gpt-title">GPT 소개</h2>
+            <img src="https://i.ibb.co/23N0qWNb/Kakao-Talk-20251204-005316171.jpg" alt="GPT 로고" class="model-image"/>
 
-        <p id="gpt-intro-text" style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 텍스트를 한 다양한 정보를 이해하고 생성할 수 있는 OpenAI의 인공지능 모델이다.
-            최근 모델들은 텍스트뿐만 아니라 이미지, 음성 등 여러 형태의 데이터를 함께 처리할 수 있는 멀티모달 기능도 지원한다.
-            높은 언어 이해력과 창의적인 생성 능력을 바탕으로 학습, 업무, 연구 등 다양한 분야에서 활용되고 있다.
-        </p>
+            <p class="description">
+                GPT는 텍스트를 포함한 다양한 정보를 이해하고 생성할 수 있는 OpenAI의 인공지능 모델입니다.
+                최근 모델들은 텍스트뿐만 아니라 이미지, 음성 등 여러 형태의 데이터를 함께 처리할 수 있는 멀티모달 기능도 지원합니다.
+            </p>
 
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT의 주요 성능
-        </h2>
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 고급 언어 이해력, 코드 작성 및 디버깅, 수학·과학 문제 해결, 글쓰기·요약·번역 등 다양한 작업을 수행할 수 있는 성능을 가지고 있다.
-            최신 GPT-5 계열 모델은 추론 능력과 정확도가 크게 향상되어 복잡한 과제에서도 인간 전문가에 가까운 결과를 낼 수 있다.
-        </p>
+            <h2 class="gpt-title">주요 성능</h2>
+            <p class="description">
+                GPT는 고급 언어 이해력, 코드 작성 및 디버깅, 수학·과학 문제 해결 등 다양한 작업을 수행할 수 있습니다.
+                최신 모델은 추론 능력과 정확도가 크게 향상되어 복잡한 과제에서도 전문가에 가까운 결과를 냅니다.
+            </p>
 
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT 작동 원리
-        </h2>
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 트랜스포머(Transformer) 구조를 기반으로, 방대한 텍스트와 이미지 데이터를 학습해 언어와 정보의 패턴을 익힌다.
-            사용자의 입력을 분석한 뒤 문맥에 가장 잘 맞는 단어를 확률적으로 예측하여 문장을 생성하며,
-            멀티모달 모델의 경우 텍스트와 이미지를 하나의 통합된 아키텍처 안에서 함께 처리한다.
-        </p>
-
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-          GPT 버전별 특징
-          <h2></h2>
-            <div id="version-list">
+            <h2 class="gpt-title">버전별 특징</h2>
+            <div class="feature-list">
                 <ul>
-                    <li>
-                        <strong>무료 버전:</strong> 무료 버전은 기본 모델을 사용해 일상적인 대화와 간단한 작업을 수행할 수 있으며, 성능과 기능은 제한적이지만 누구나 부담 없이 생성형 AI를 경험할 수 있는 입문용 서비스이다.
-                  </li>
-                    <li>
-                        <strong>GPT Plus:</strong> 플러스 버전은 최신 고성능 모델을 사용할 수 있어 속도·정확성·추론 능력이 크게 향상되며, 문서 분석·코딩·이미지 처리 등 대부분의 작업을 안정적으로 수행할 수 있는 고급 개인용 서비스이다.
-                    <li>
-                        <strong>GPT Pro:</strong>  프로 버전은 플러스보다 더욱 강력한 모델과 빠른 속도, 넓은 사용량을 제공하여 복잡한 연구·개발·대규모 파일 처리까지 가능한 최상위 개인용 서비스로, 전문 사용자와 고난도 작업에 최적화되어 있다.
-                    </li>
+                    <li><strong>무료 버전:</strong> 일상적인 대화와 간단한 작업 수행 가능 (입문용)</li>
+                    <li><strong>GPT Plus:</strong> 최신 고성능 모델 사용, 속도/정확성 향상 (개인용 고급)</li>
+                    <li><strong>GPT Pro:</strong> 가장 강력한 모델과 빠른 속도 제공 (전문가/개발용)</li>
                 </ul>
             </div>
-    </section>
+        </section>
 
         <section id="gemini-section" class="hidden-content">
+            <h2 class="gemini-title">Gemini 소개</h2>
+            <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="model-image">
             
-            <h2>Gemini 소개</h2>
-            <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="gemini-image">
-            
-            <p id="intro-text-detail">
-                Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델이다.<br>
-                더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용된다.
+            <p class="description">
+                Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델입니다.<br>
+                더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용됩니다.
             </p>
             
-            <h2>Gemini의 주요 성능</h2>
-            <p id="performance-text-detail">
-                Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델이다. <br>
-                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
+            <h2 class="gemini-title">주요 성능</h2>
+            <p class="description">
+                Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델입니다.
             </p>
             
-            <h2>Gemini 작동 원리</h2>
-            <p id="mechanism-text-detail">
-                Gemini는 멀티모달리티(Multimodality)를 기반으로 작동합니다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
-                하나의 통합된 아키텍처 내에서 학습되고 처리된다는 것을 의미합니다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능합니다.
-            </p>
-            
-            <h2>Gemini 버전별 특징</h2>
-            <div id="version-list">
+            <h2 class="gemini-title">버전별 특징</h2>
+            <div class="feature-list">
                 <ul>
-                    <li>
-                        <strong>Gemini Ultra:</strong> 가장 크고 강력한 버전으로, 매우 복잡한 작업을 위해 설계되었다. 대규모 추론 능력이 필요한 작업에 주로 사용된다. (유료/고성능)
-                    </li>
-                    <li>
-                        <strong>Gemini Pro:</strong> 다양한 작업에서 최고의 성능과 효율성 사이의 균형을 제공한다. 대부분의 일반적인 AI 서비스에 사용된다. (무료 및 유료 서비스의 기반)
-                    </li>
-                    <li>
-                        <strong>Gemini Nano:</strong> 장치 내(On-device) AI를 위해 설계된 가장 효율적인 모델이다. 스마트폰과 같은 기기에서 직접 구동되어 속도가 빠르다. (장치 내 무료)
-                    </li>
+                    <li><strong>Gemini Ultra:</strong> 가장 크고 강력한 버전, 복잡한 추론 작업용 (유료)</li>
+                    <li><strong>Gemini Pro:</strong> 성능과 효율성의 균형, 일반적인 서비스용</li>
+                    <li><strong>Gemini Nano:</strong> 온디바이스(On-device) AI를 위한 효율적 모델 (모바일용)</li>
+                </ul>
+            </div>
+        </section>
+
+      <section id="ooai-section" class="hidden-content">
+            <h2 class="ooai-title">oo.ai 소개</h2>
+            <img src="https://via.placeholder.com/500x300/f39c12/ffffff?text=oo.ai+Logo" alt="oo.ai 로고" class="model-image">
+            
+            <p class="description">
+                oo.ai는 사용자가 쉽고 편리하게 인공지능을 경험할 수 있도록 설계된 AI 서비스입니다. 
+                복잡한 설정 없이 직관적인 인터페이스를 통해 텍스트 생성, 정보 검색 등 다양한 작업을 수행할 수 있도록 돕습니다.
+            </p>
+            
+            <h2 class="ooai-title">주요 성능</h2>
+            <p class="description">
+                최신 AI 모델을 기반으로 하여 자연스러운 대화가 가능하며, 사용자의 의도를 빠르고 정확하게 파악하는 데 중점을 두고 있습니다.
+                학습 데이터와 알고리즘 최적화를 통해 특정 분야에서 뛰어난 성능을 발휘합니다.
+            </p>
+            
+            <h2 class="ooai-title">주요 특징</h2>
+            <div class="feature-list">
+                <ul>
+                    <li><strong>직관적인 사용성:</strong> 누구나 쉽게 사용할 수 있는 간결한 디자인과 UI를 제공합니다.</li>
+                    <li><strong>맞춤형 기능:</strong> 사용자의 목적에 따라 최적화된 답변이나 결과를 생성합니다.</li>
+                    <li><strong>확장성:</strong> 다양한 플러그인이나 외부 도구와 연동하여 기능을 확장할 수 있습니다.</li>
                 </ul>
             </div>
         </section>
