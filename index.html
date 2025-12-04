@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 기술 탐구 블로그</title>
+    
+    <style>
+        /* [네이버 블로그 스타일 정의] */
+        :root {
+            --naver-green: #03c75a;
+            --text-black: #222;
+            --text-gray: #666;
+            --bg-gray: #ebTeb; /* 네이버 배경색과 유사한 톤 */
+            --border-color: #e5e5e5;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Nanum Gothic', sans-serif;
+            margin: 0; 
+            background-color: #f5f6f8; /* 배경색 */
+            color: var(--text-black);
+        }
+
+        /* 1. 상단 헤더 (블로그 제목) */
+        header {
+            background-color: white;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .blog-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--text-black);
+            cursor: pointer;
+        }
+        
+        /* 2. 메인 레이아웃 (2단 구조: 사이드바 + 본문) */
+        .container {
+            width: 1080px; /* 네이버 블로그 표준 폭 */
+            margin: 0 auto;
+            display: flex; /* 좌우 배치 */
+            padding-top: 20px;
+            gap: 20px;
+        }
+
+        /* --- 왼쪽 사이드바 (프로필 & 카테고리) --- */
+        aside {
+            width: 250px;
+            flex-shrink: 0;
+        }
+
+        /* 프로필 박스 */
+        .profile-box {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* 원형 이미지 */
+            background-color: #ddd;
+            margin: 0 auto 15px;
+            overflow: hidden;
+        }
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .profile-desc {
+            font-size: 0.8em;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .btn-neighbor {
+            display: block;
+            width: 100%;
+            padding: 8px 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            font-size: 0.9em;
+            cursor: pointer;
+            color: var(--text-black);
+        }
+        .btn-write {
+            display: block;
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px 0;
+            background-color: var(--naver-green); /* 네이버 초록 */
+            border: 1px solid var(--naver-green);
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* 카테고리 메뉴 */
+        .category-box {
+            background: white;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .category-title {
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .category-list li {
+            margin-bottom: 8px;
+        }
+        .category-list a {
+            text-decoration: none;
+            color: var(--text-black);
+            font-size: 0.9em;
+            cursor: pointer;
+            display: block;
+            padding: 5px 0;
+        }
+        .category-list a:hover {
+            color: var(--naver-green);
+            text-decoration: underline;
+        }
+
+        /* --- 오른쪽 본문 영역 --- */
+        main {
+            flex-grow: 1; /* 남은 공간 다 차지 */
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            min-height: 600px;
+            border-radius: 4px;
+        }
+
+        /* 본문 내부 스타일 */
+        h1.post-title {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        .post-date {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 30px;
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .post-content h2 {
+            border-left: 5px solid var(--naver-green); /* 네이버 스타일 제목 장식 */
+            padding-left: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .model-image {
+            max-width: 100%;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        p.description {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.05em;
+            margin-bottom: 20px;
+        }
+
+        /* 화면 전환용 클래스 */
+        .hidden-content { display: none !important; }
+        .visible-content { display: block !important; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    </style>
+    
+    <script>
+        function showContent(contentId) {
+            const allSections = ['home-title-section', 'gpt-section', 'gemini-section', 'ooai-section'];
+            
+            // 모든 섹션을 숨기고 선택한 것만 보여줌
+            allSections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                if (sectionId === contentId) {
+                    element.classList.remove('hidden-content');
+                    element.classList.add('visible-content');
+                } else {
+                    element.classList.remove('visible-content');
+                    element.classList.add('hidden-content');
+                }
+            });
+        }
+        window.onload = function() { showContent('home-title-section'); }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="blog-title" onclick="showContent('home-title-section')">
+            AI 탐구생활 : 네이버 블로그 st
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <aside>
+            <div class="profile-box">
+                <div class="profile-img">
+                    <img src="https://via.placeholder.com/100?text=User" alt="프로필">
+                </div>
+                <div class="profile-name">AI 마스터</div>
+                <div class="profile-desc">최신 AI 기술을 공부하고 기록하는 공간입니다.</div>
+                
+                <button class="btn-neighbor" onclick="alert('이웃이 추가되었습니다!')">🤝 이웃추가</button>
+                <button class="btn-write" onclick="alert('글쓰기 권한이 없습니다.')">글쓰기</button>
+            </div>
+
+            <div class="category-box">
+                <div class="category-title">카테고리</div>
+                <ul class="category-list">
+                    <li><a onclick="showContent('home-title-section')">📂 전체보기 (Home)</a></li>
+                    <li><a onclick="showContent('gpt-section')">📝 GPT 탐구</a></li>
+                    <li><a onclick="showContent('gemini-section')">🌌 Gemini 탐구</a></li>
+                    <li><a onclick="showContent('ooai-section')">🤖 oo.ai 탐구</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main>
+            <section id="home-title-section" class="visible-content">
+                <h1 class="post-title">프롤로그: 생성형 AI의 세계</h1>
+                <span class="post-date">2025. 12. 04. 16:30</span>
+                <div class="post-content">
+                    <p class="description">
+                        안녕하세요! 이 블로그는 최신 인공지능 모델들을 비교하고 분석하는 팀 프로젝트 공간입니다.<br><br>
+                        왼쪽 <strong>카테고리</strong>에서 원하는 모델을 클릭하면 상세 내용을 확인하실 수 있습니다.<br>
+                        마치 네이버 블로그처럼 편하게 둘러보세요!
+                    </p>
+                    <div style="text-align: center; margin-top: 50px;">
+                        <img src="https://via.placeholder.com/600x300/eee/999?text=Blog+Main+Image" alt="메인 이미지" style="max-width:100%;">
+                    </div>
+                </div>
+            </section>
+
+            <section id="gpt-section" class="hidden-content">
+                <h1 class="post-title">ChatGPT 완벽 분석 보고서</h1>
+                <span class="post-date">2025. 12. 04. · 비즈니스/경제</span>
+                
+                <div class="post-content">
+                    <img src="https://i.ibb.co/23N0qWNb/Kakao-Talk-20251204-005316171.jpg" alt="GPT 로고" class="model-image"/>
+                    
+                    <h2>1. GPT란 무엇인가?</h2>
+                    <p class="description">
+                        GPT는 OpenAI가 개발한 대화형 인공지능 모델입니다. 
+                        텍스트뿐만 아니라 이미지와 음성까지 처리하는 멀티모달 기능을 갖추고 있습니다.
+                    </p>
+
+                    <h2>2. 주요 특징</h2>
+                    <p class="description">
+                        - <strong>압도적인 언어 능력:</strong> 작문, 번역, 요약 등에서 뛰어난 성능<br>
+                        - <strong>코딩 지원:</strong> 복잡한 프로그래밍 코드 작성 및 디버깅<br>
+                        - <strong>버전 다양성:</strong> 무료 버전부터 Pro 버전까지 목적에 맞게 선택 가능
+                    </p>
+                </div>
+            </section>
+
+            <section id="gemini-section" class="hidden-content">
+                <h1 class="post-title">Google Gemini: 멀티모달의 강자</h1>
+                <span class="post-date">2025. 12. 04. · IT/과학</span>
+                
+                <div class="post-content">
+                    <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="model-image">
+                    
+                    <h2>1. Gemini 소개</h2>
+                    <p class="description">
+                        Gemini는 구글이 야심 차게 내놓은 멀티모달 AI입니다. 
+                        텍스트, 이미지, 비디오를 동시에 이해하는 능력이 탁월합니다.
+                    </p>
+                    
+                    <h2>2. 라인업 구성</h2>
+                    <p class="description">
+                        - <strong>Gemini Ultra:</strong> 가장 강력한 성능, 복잡한 추론용<br>
+                        - <strong>Gemini Pro:</strong> 범용적인 사용성에 최적화<br>
+                        - <strong>Gemini Nano:</strong> 스마트폰 등 온디바이스 AI용
+                    </p>
+                </div>
+            </section>
+
+            <section id="ooai-section" class="hidden-content">
+                <h1 class="post-title">oo.ai : 차세대 AI 서비스</h1>
+                <span class="post-date">2025. 12. 04. · 일상/생각</span>
+                
+                <div class="post-content">
+                    <img src="https://via.placeholder.com/500x300/f39c12/ffffff?text=oo.ai+Logo" alt="oo.ai 로고" class="model-image">
+                    
+                    <h2>1. 서비스 개요</h2>
+                    <p class="description">
+                        oo.ai는 사용자가 쉽고 편리하게 인공지능을 경험할 수 있도록 설계된 서비스입니다. 
+                        직관적인 인터페이스가 가장 큰 장점입니다.
+                    </p>
+                    
+                    <h2>2. 조사 내용</h2>
+                    <p class="description">
+                        (이곳에 조사하신 내용을 채워 넣으시면 됩니다. 네이버 블로그 글쓰기처럼 편하게 내용을 추가해보세요!)
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
