@@ -91,7 +91,7 @@
             margin: 20px auto; 
         }
         /* 텍스트 스타일 공통 적용 */
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text {
+        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text, #history-text-detail {
             width: 700px; 
             margin: 20px auto; 
             font-size: 1.1em;
@@ -109,14 +109,33 @@
             margin-bottom: 15px; 
         }
         
-        /* ✨ [NEW] 생성된 예시 이미지 스타일 */
+        /* 생성된 예시 이미지 스타일 */
         .generated-sample-img {
             display: block;
-            width: 400px; /* 이미지 크기 조절 */
+            width: 400px; 
             margin-top: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border: 2px solid #ddd;
+        }
+
+        /* ✨ [NEW] 유튜브 영상 컨테이너 스타일 */
+        .video-wrapper {
+            width: 700px;
+            margin: 20px auto;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 비율 유지 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
     
@@ -167,6 +186,22 @@
                 Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델이다.<br>
                 더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용된다.
             </p>
+
+            <h2>탄생 배경과 역사</h2>
+            
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/jV1vkHv4zq8" title="Google Gemini Introduction" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <p id="history-text-detail">
+                정보의 규모와 복잡성이 커지면서 문제를 해결하기 더 어려워지고 있는 상황에서, 대규모 언어모델(LLM) 시대가 도래하고 있다. 
+                이에 구글은 차세대 LLM인 <strong>Gemini(제미나이)</strong>를 공개하였다. 
+                구글은 기존 최신 LLM ‘팜2′(PaLM)를 넘어선 가장 포괄적이고 뛰어난 인공지능(AI) 모델 제미나이의 성능을 공개하고 자사 서비스에 적용할 계획임을 밝혔다.<br><br>
+                
+                Gemini는 모두에게 더 유용한 AI 모델을 구축하는 여정에서 한 차원 업그레이드된 다음 단계의 시작을 의미한다. 
+                다른 AI 모델들과 달리, <strong>Gemini는 텍스트, 이미지, 오디오, 동영상, 코드 등을 비롯한 여러 가지 유형의 정보를 인식하고, 이해하고, 결합하도록 훈련을 받았다.</strong> 
+                이는 인간이 다양한 유형의 정보를 동시에 보고, 듣고, 읽고, 말하는 것과 같은 방식이다.
+            </p>
             
             <h2>주요 성능</h2>
             <p id="performance-text-detail">
@@ -186,13 +221,11 @@
                     <li>
                         <strong>Gemini Ultra:</strong> 가장 크고 강력한 버전으로, 매우 복잡한 작업을 위해 설계되었다. 대규모 추론 능력이 필요한 작업에 주로 사용된다. (유료/고성능)
                     </li>
-                    
                     <li>
                         <strong>Gemini Pro (Updated to 1.5/Future 3.0):</strong> 다양한 작업에서 최고의 성능과 효율성 사이의 균형을 제공한다. 
                         특히 최신 <strong>Pro 모델</strong>은 이전 버전 대비 <strong>추론 능력과 긴 문맥(Context Window) 처리 속도가 비약적으로 향상되었다</strong>. <br>
                         복잡한 멀티모달 작업을 더 빠르고 정확하게 수행하며, 개발자와 기업을 위한 API 확장성이 크게 개선된 점이 특징이다. (무료 및 유료 서비스의 기반)
                     </li>
-                    
                     <li>
                         <strong>Gemini Nano:</strong> 장치 내(On-device) AI를 위해 설계된 가장 효율적인 모델이다. 스마트폰과 같은 기기에서 직접 구동되어 속도가 빠르다. (장치 내 무료)
                     </li>
