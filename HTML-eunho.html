@@ -90,7 +90,8 @@
             display: block; 
             margin: 20px auto; 
         }
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list {
+        /* 텍스트 스타일 공통 적용 */
+        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text {
             width: 700px; 
             margin: 20px auto; 
             font-size: 1.1em;
@@ -100,7 +101,7 @@
         } 
         /* 추가: 리스트 스타일 조정 */
         #version-list ul, #use-case-list ul {
-            list-style-type: disc; /* 검은 점 목록 */
+            list-style-type: disc; 
             padding-left: 20px;
             margin-left: 20px;
         }
@@ -203,6 +204,19 @@
                     </li>
                 </ul>
             </div>
+
+            <h2>Gemini vs Chat GPT (원리 비교)</h2>
+            <p id="comparison-text">
+                <strong>GPT (Generative Pre-trained Transformer):</strong><br>
+                OpenAI의 GPT 시리즈는 <strong>Transformer 아키텍처</strong>의 디코더(Decoder) 부분만을 사용하여, 이전 단어들을 바탕으로 다음 단어를 예측하는 방식에 특화되어 있습니다. 
+                주로 텍스트 생성 및 이해에 강력한 성능을 보입니다.<br><br>
+                
+                <strong>Gemini (Multimodal Architecture):</strong><br>
+                구글의 Gemini 역시 Transformer를 기반으로 하지만, <strong>처음부터 멀티모달(Multimodal)</strong>로 설계되었습니다. 
+                텍스트뿐만 아니라 이미지, 오디오, 비디오 데이터를 토큰화하여 동시에 학습시켰기 때문에, 서로 다른 종류의 정보를 유기적으로 이해하고 처리하는 데 더 최적화되어 있습니다.
+                <br>(참고: BART는 인코더-디코더 구조를 모두 사용하여 텍스트 요약 등에 강점이 있는 또 다른 모델입니다.)
+            </p>
+
         </section>
         
     </div>
