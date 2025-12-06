@@ -52,7 +52,7 @@
             width: 800px;
             margin: 30px auto;
             padding: 30px;
-            background-color: #ffffff;
+            background-color: #f8f8f8;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             min-height: 350px;
@@ -82,7 +82,6 @@
         #gemini-section h2 { 
             color: #1869d4; 
             font-size: 1.8em;
-            /* ✨ 수정된 부분: 위쪽 여백을 100px로 늘려 간격을 확실히 넓힘 */
             margin-top: 100px; 
             margin-bottom: 20px; 
         }
@@ -108,6 +107,16 @@
         }
         #version-list li, #use-case-list li {
             margin-bottom: 15px; 
+        }
+        
+        /* ✨ [NEW] 생성된 예시 이미지 스타일 */
+        .generated-sample-img {
+            display: block;
+            width: 400px; /* 이미지 크기 조절 */
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid #ddd;
         }
     </style>
     
@@ -162,13 +171,13 @@
             <h2>주요 성능</h2>
             <p id="performance-text-detail">
                 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델이다. <br>
-                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
+                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징이다.
             </p>
             
             <h2>작동 원리</h2>
             <p id="mechanism-text-detail">
-                **멀티모달리티(Multimodality)**를 기반으로 작동합니다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
-                **하나의 통합된 아키텍처** 내에서 학습되고 처리된다는 것을 의미합니다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능합니다.
+                **멀티모달리티(Multimodality)**를 기반으로 작동한다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
+                **하나의 통합된 아키텍처** 내에서 학습되고 처리된다는 것을 의미한다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능하다.
             </p>
             
             <h2>버전별 특징</h2>
@@ -178,9 +187,9 @@
                         <strong>Gemini Ultra:</strong> 가장 크고 강력한 버전으로, 매우 복잡한 작업을 위해 설계되었다. 대규모 추론 능력이 필요한 작업에 주로 사용된다. (유료/고성능)
                     </li>
                     <li>
-                        <strong>Gemini Pro (Updated to 1.5/Future 3.0):</strong> 다양한 작업에서 최고의 성능과 효율성 사이의 균형을 제공합니다. 
-                        특히 최신 <strong>Pro 모델</strong>은 이전 버전 대비 <strong>추론 능력과 긴 문맥(Context Window) 처리 속도가 비약적으로 향상</strong>되었습니다. <br>
-                        복잡한 멀티모달 작업을 더 빠르고 정확하게 수행하며, 개발자와 기업을 위한 API 확장성이 크게 개선된 점이 특징입니다. (무료 및 유료 서비스의 기반)
+                        <strong>Gemini Pro (Updated to 1.5/Future 3.0):</strong> 다양한 작업에서 최고의 성능과 효율성 사이의 균형을 제공한다. 
+                        특히 최신 <strong>Pro 모델</strong>은 이전 버전 대비 <strong>추론 능력과 긴 문맥(Context Window) 처리 속도가 비약적으로 향상되었다</strong>. <br>
+                        복잡한 멀티모달 작업을 더 빠르고 정확하게 수행하며, 개발자와 기업을 위한 API 확장성이 크게 개선된 점이 특징이다. (무료 및 유료 서비스의 기반)
                     </li>
                     <li>
                         <strong>Gemini Nano:</strong> 장치 내(On-device) AI를 위해 설계된 가장 효율적인 모델이다. 스마트폰과 같은 기기에서 직접 구동되어 속도가 빠르다. (장치 내 무료)
@@ -192,16 +201,25 @@
             <div id="use-case-list">
                 <ul>
                     <li>
-                        <strong>코딩 및 개발:</strong> 코드 생성, 디버깅, 복잡한 코드 블록 설명 등 개발 생산성 향상에 기여합니다.
+                        <strong>코딩 및 개발:</strong> 코드 생성, 디버깅, 복잡한 코드 블록 설명 등 개발 생산성 향상에 기여한다.
                     </li>
                     <li>
-                        <strong>교육 및 연구:</strong> 멀티모달 능력을 활용하여 복잡한 도표나 그래프를 분석하고, 심층적인 연구 보고서를 요약 및 생성합니다.
+                        <strong>교육 및 연구:</strong> 멀티모달 능력을 활용하여 복잡한 도표나 그래프를 분석하고, 심층적인 연구 보고서를 요약 및 생성한다.
                     </li>
                     <li>
-                        <strong>콘텐츠 제작:</strong> 이미지, 텍스트, 오디오를 결합한 창의적인 콘텐츠 아이디어 구상 및 초안 작성에 활용됩니다.
+                        <strong>콘텐츠 제작:</strong> 이미지, 텍스트, 오디오를 결합한 창의적인 콘텐츠 아이디어 구상 및 초안 작성에 활용된다.
                     </li>
                     <li>
-                        <strong>비즈니스 분석:</strong> 시각 자료(차트, 표)와 텍스트 문서를 동시에 분석하여 빠르고 정확한 의사결정을 돕습니다.
+                        <strong>비즈니스 분석:</strong> 시각 자료(차트, 표)와 텍스트 문서를 동시에 분석하여 빠르고 정확한 의사결정을 돕는다.
+                    </li>
+                    
+                    <li>
+                        <strong>AI 이미지 및 피규어 생성:</strong> 
+                        텍스트 프롬프트만으로 고품질의 이미지를 생성할 수 있으며, 특히 'AI 피규어 모드'를 활용하면 실제 피규어와 같은 질감(플라스틱, 레진 등)과 조명을 갖춘 정교한 3D 캐릭터 모델링 이미지까지 생성이 가능하다.<br>
+                        <br>
+                        <span style="font-size: 0.9em; color: #888;">[예시: AI로 생성된 3D 로봇 피규어 컨셉]</span><br>
+                        
+                        <img src="gemini_figure.png" alt="Gemini 생성 피규어 예시" class="generated-sample-img">
                     </li>
                 </ul>
             </div>
@@ -209,13 +227,13 @@
             <h2>Chat GPT와의 비교 (원리)</h2>
             <p id="comparison-text">
                 <strong>GPT (Generative Pre-trained Transformer):</strong><br>
-                OpenAI의 GPT 시리즈는 <strong>Transformer 아키텍처</strong>의 디코더(Decoder) 부분만을 사용하여, 이전 단어들을 바탕으로 다음 단어를 예측하는 방식에 특화되어 있습니다. 
-                주로 텍스트 생성 및 이해에 강력한 성능을 보입니다.<br><br>
+                OpenAI의 GPT 시리즈는 <strong>Transformer 아키텍처</strong>의 디코더(Decoder) 부분만을 사용하여, 이전 단어들을 바탕으로 다음 단어를 예측하는 방식에 특화되어 있다. 
+                주로 텍스트 생성 및 이해에 강력한 성능을 보인다.<br><br>
                 
                 <strong>Gemini (Multimodal Architecture):</strong><br>
-                구글의 Gemini 역시 Transformer를 기반으로 하지만, <strong>처음부터 멀티모달(Multimodal)</strong>로 설계되었습니다. 
-                텍스트뿐만 아니라 이미지, 오디오, 비디오 데이터를 토큰화하여 동시에 학습시켰기 때문에, 서로 다른 종류의 정보를 유기적으로 이해하고 처리하는 데 더 최적화되어 있습니다.
-                <br>(참고: BART는 인코더-디코더 구조를 모두 사용하여 텍스트 요약 등에 강점이 있는 또 다른 모델입니다.)
+                구글의 Gemini 역시 Transformer를 기반으로 하지만, <strong>처음부터 멀티모달(Multimodal)</strong>로 설계되었다. 
+                텍스트뿐만 아니라 이미지, 오디오, 비디오 데이터를 토큰화하여 동시에 학습시켰기 때문에, 서로 다른 종류의 정보를 유기적으로 이해하고 처리하는 데 더 최적화되어 있다.
+                <br>(참고: BART는 인코더-디코더 구조를 모두 사용하여 텍스트 요약 등에 강점이 있는 또 다른 모델이다.)
             </p>
 
         </section>
