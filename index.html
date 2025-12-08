@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>AI web - 홈 (통합)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Hub - 통합 비교</title>
     
     <style>
+        /* 1. 기본 설정 (배경 그라데이션) */
         body {
-            font-family: 'Malgun Gothic', sans-serif;
+            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
             margin: 0; 
-            background-color: #ffffff; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             text-align: center; 
+            color: #333;
+            min-height: 100vh;
         }
 
-        /* 1. 내비게이션 스타일 */
+        /* 2. 내비게이션 스타일 */
         nav {
-            width: 800px; 
+            max-width: 800px; 
+            width: 90%;
             margin: 0 auto;
             background-color: #000000;
-            padding: 10px 0;
-            margin-top: 150px; 
-            border-radius: 5px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            margin-top: 60px; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 10;
         }
         nav ul {
             list-style: none;
@@ -29,93 +37,168 @@
         }
         nav li {
             display: inline-block;
-            padding: 0; 
         }
         nav a {
             color: white;
             text-decoration: none;
             font-weight: bold;
+            font-size: 1.1em;
             cursor: pointer; 
             display: block; 
-            padding: 10px 20px; 
-            background-color: #000000; 
+            padding: 10px 25px; 
             margin: 0 5px; 
-            border-radius: 3px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
         nav a:hover {
-            background-color: #1abc9c;
-            border-radius: 3px;
+            background-color: #333;
+            transform: translateY(-2px);
         }
 
-        /* 2. 콘텐츠 박스 공통 스타일 */
+        /* 3. 콘텐츠 박스 공통 스타일 */
         .content-container {
-            width: 800px;
-            margin: 30px auto;
-            padding: 30px;
-            background-color: #f8f8f8;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            min-height: 350px;
+            max-width: 800px;
+            width: 90%;
+            margin: 40px auto;
+            padding: 50px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            min-height: 500px;
+            text-align: left;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden; 
         }
 
-        /* 3. 콘텐츠 전환용 클래스 (JS가 이 클래스를 제어합니다) */
-        .hidden-content {
-            display: none !important;
+        /* 홈 화면 배경 패턴 */
+        #home-title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM32 63c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm57-13c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 55c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM56 8c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-7 64c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-7 38c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm38-2c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm12-22c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: 0;
+            pointer-events: none;
         }
+
+        /* 유틸리티 및 애니메이션 */
+        .hidden-content { display: none !important; }
         .visible-content {
             display: block !important;
+            animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 4. 홈 화면 스타일 */
+        /* 텍스트 스타일 */
         #home-title-section {
-            padding-top: 50px;
+            text-align: center;
+            padding-top: 100px;
+            position: relative;
+            z-index: 1;
         }
-        #home-title-section h1 {
-            color: #000000; 
-            font-size: 3.5em; 
+        
+        h1.main-title {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-shadow: 2px 2px 0px #e0e0e0, 4px 4px 0px rgba(0,0,0,0.1);
+        }
+        .intro-p {
+            font-size: 1.3em;
+            color: #555;
+            line-height: 1.6;
         }
 
-        /* 5. Gemini 콘텐츠 스타일 */
-        #gemini-section {
-            padding-top: 20px;
-        }
-        #gemini-section h2 { 
-            color: #1869d4; 
+        h2 {
             font-size: 1.8em;
-            margin-top: 30px;
-            margin-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
         }
-        .gemini-image {
-            width: 500px; 
-            display: block; 
-            margin: 20px auto; 
-        }
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list {
-            width: 700px; 
-            margin: 20px auto; 
+
+        .gpt-header { color: #00a67e; }
+        .gemini-header { color: #1869d4; }
+        .grok-header { color: #000000; }
+
+        .desc-text {
             font-size: 1.1em;
             color: #555;
-            line-height: 1.5; 
-            text-align: left; 
-        } 
-        /* 추가: 리스트 스타일 조정 */
-        #version-list ul {
-            list-style-type: disc; /* 검은 점 목록 */
-            padding-left: 20px;
-            margin-left: 20px;
+            line-height: 1.6;
         }
-        #version-list li {
-            margin-bottom: 8px;
+
+        .model-image {
+            max-width: 100%;
+            width: 300px; 
+            display: block; 
+            margin: 30px auto; 
+            border-radius: 10px;
+        }
+
+        /* 리스트 스타일 */
+        .version-list ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .version-list li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+            color: #444;
+        }
+        .version-list li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            font-size: 0.8em;
+            top: 4px;
+        }
+        #gpt-section .version-list li::before { color: #00a67e; }
+        #gemini-section .version-list li::before { color: #1869d4; }
+        #grok-section .version-list li::before { color: #000000; }
+
+        /* 비교 테이블 스타일 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 0.95em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: center;
+        }
+        .comparison-table th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+        .comparison-table td:first-child {
+            font-weight: bold;
+            background-color: #fafafa;
+            text-align: left;
         }
     </style>
     
     <script>
         function showContent(contentId) {
-            const allSections = ['home-title-section', 'gpt-section', 'gemini-section', 'oo.ai-section'];
+            const allSections = ['home-title-section', 'gpt-section', 'gemini-section', 'grok-section'];
 
             allSections.forEach(sectionId => {
                 const element = document.getElementById(sectionId);
-                
                 if (sectionId === contentId) {
                     element.classList.remove('hidden-content');
                     element.classList.add('visible-content');
@@ -138,107 +221,101 @@
             <li><a onclick="showContent('home-title-section')">홈</a></li> 
             <li><a onclick="showContent('gpt-section')">GPT</a></li> 
             <li><a onclick="showContent('gemini-section')">Gemini</a></li> 
-            <li><a onclick="showContent('oo.ai-section')">oo.ai</a></li> 
+            <li><a onclick="showContent('grok-section')">Grok</a></li> 
         </ul>
     </nav>
     
     <div class="content-container">
         
         <section id="home-title-section" class="visible-content">
-            <h1 class="main-title">생성형 AI</h1>
-            <p>AI 모델을 선택하여 상세 정보를 확인하세요.</p>
+            <h1 class="main-title">Generative AI Hub</h1>
+            <p class="intro-p">
+                최신 AI 모델들의 성능과 특징을 한곳에서 비교하세요.<br>
+                <strong>GPT, Gemini, Grok</strong>의 상세 정보와 비교 자료를 확인하실 수 있습니다.
+            </p>
         </section>
 
         <section id="gpt-section" class="hidden-content">
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT 소개
-        </h2>
-         <h2></h2>
-            <img src="https://i.ibb.co/23N0qWNb/Kakao-Talk-20251204-005316171.jpg" alt="GPT 로고" class="gpt-image"/>
+            <h2 class="gpt-header">GPT 소개</h2>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1024px-ChatGPT_logo.svg.png" alt="GPT 로고" class="model-image" style="width: 150px;"/>
             
+            <p class="desc-text">
+                GPT는 텍스트를 포함한 다양한 정보를 이해하고 생성할 수 있는 OpenAI의 인공지능 모델이다.
+                최근 모델들은 텍스트뿐만 아니라 이미지, 음성 등 여러 형태의 데이터를 함께 처리할 수 있는 멀티모달 기능도 지원한다.
+                높은 언어 이해력과 창의적인 생성 능력을 바탕으로 학습, 업무, 연구 등 다양한 분야에서 활용되고 있다.
+            </p>
 
-        <p id="gpt-intro-text" style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 텍스트를 한 다양한 정보를 이해하고 생성할 수 있는 OpenAI의 인공지능 모델이다.
-            최근 모델들은 텍스트뿐만 아니라 이미지, 음성 등 여러 형태의 데이터를 함께 처리할 수 있는 멀티모달 기능도 지원한다.
-            높은 언어 이해력과 창의적인 생성 능력을 바탕으로 학습, 업무, 연구 등 다양한 분야에서 활용되고 있다.
-        </p>
+            <h2 class="gpt-header">GPT의 주요 성능</h2>
+            <p class="desc-text">
+                GPT는 고급 언어 이해력, 코드 작성 및 디버깅, 수학·과학 문제 해결, 글쓰기·요약·번역 등 다양한 작업을 수행할 수 있는 성능을 가지고 있다.
+                최신 GPT-5 계열 모델은 추론 능력과 정확도가 크게 향상되어 복잡한 과제에서도 인간 전문가에 가까운 결과를 낼 수 있다.
+            </p>
 
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT의 주요 성능
-        </h2>
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 고급 언어 이해력, 코드 작성 및 디버깅, 수학·과학 문제 해결, 글쓰기·요약·번역 등 다양한 작업을 수행할 수 있는 성능을 가지고 있다.
-            최신 GPT-5 계열 모델은 추론 능력과 정확도가 크게 향상되어 복잡한 과제에서도 인간 전문가에 가까운 결과를 낼 수 있다.
-        </p>
+            <h2 class="gpt-header">GPT 작동 원리</h2>
+            <p class="desc-text">
+                GPT는 트랜스포머(Transformer) 구조를 기반으로, 방대한 텍스트와 이미지 데이터를 학습해 언어와 정보의 패턴을 익힌다.
+                사용자의 입력을 분석한 뒤 문맥에 가장 잘 맞는 단어를 확률적으로 예측하여 문장을 생성하며,
+                멀티모달 모델의 경우 텍스트와 이미지를 하나의 통합된 아키텍처 안에서 함께 처리한다.
+            </p>
 
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-            GPT 작동 원리
-        </h2>
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            GPT는 트랜스포머(Transformer) 구조를 기반으로, 방대한 텍스트와 이미지 데이터를 학습해 언어와 정보의 패턴을 익힌다.
-            사용자의 입력을 분석한 뒤 문맥에 가장 잘 맞는 단어를 확률적으로 예측하여 문장을 생성하며,
-            멀티모달 모델의 경우 텍스트와 이미지를 하나의 통합된 아키텍처 안에서 함께 처리한다.
-        </p>
-
-        <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-          GPT 버전별 특징
-          <h2></h2>
-            <div id="version-list">
+            <h2 class="gpt-header">GPT 버전별 특징</h2>
+            <div class="version-list">
                 <ul>
                     <li>
                         <strong>무료 버전:</strong> 무료 버전은 기본 모델을 사용해 일상적인 대화와 간단한 작업을 수행할 수 있으며, 성능과 기능은 제한적이지만 누구나 부담 없이 생성형 AI를 경험할 수 있는 입문용 서비스이다.
-                  </li>
+                    </li>
                     <li>
                         <strong>GPT Plus:</strong> 플러스 버전은 최신 고성능 모델을 사용할 수 있어 속도·정확성·추론 능력이 크게 향상되며, 문서 분석·코딩·이미지 처리 등 대부분의 작업을 안정적으로 수행할 수 있는 고급 개인용 서비스이다.
+                    </li>
                     <li>
-                        <strong>GPT Pro:</strong>  프로 버전은 플러스보다 더욱 강력한 모델과 빠른 속도, 넓은 사용량을 제공하여 복잡한 연구·개발·대규모 파일 처리까지 가능한 최상위 개인용 서비스로, 전문 사용자와 고난도 작업에 최적화되어 있다.
+                        <strong>GPT Pro:</strong> 프로 버전은 플러스보다 더욱 강력한 모델과 빠른 속도, 넓은 사용량을 제공하여 복잡한 연구·개발·대규모 파일 처리까지 가능한 최상위 개인용 서비스로, 전문 사용자와 고난도 작업에 최적화되어 있다.
                     </li>
                 </ul>
             </div>
 
-            <h2 style="color:#00a67e; font-size:1.8em; margin-top:30px; margin-bottom:10px;">
-          GPT 활용 분야
-          <h2></h2>
-            <div id="version-list">
+            <h2 class="gpt-header">GPT 활용 분야</h2>
+            <div class="version-list">
                 <ul>
                     <li>
-                        <strong>학습, 교육:</strong> 어려운 개념을 쉽게 설명하고 수학물리화학등의 문제를 풀이하며 외국어 번역 및 문장을 교정해준다.
-                  </li>
-                    <li>
-                        <strong>창작, 콘텐츠 제작:</strong> 소설, 시, 스토리등의 아이디어를 생성하고 이미지와 디자인 아이디어를 구상한다.
-                    <li>
-                        <strong>프로그래밍, 기술 개발:</strong>  코드 작성 및 오류 해결과 알고리즘 설명 웹 제작 및 앱 개발 구조 설계를 도와준다.
+                        <strong>학습, 교육:</strong> 어려운 개념을 쉽게 설명하고 수학물리화학 등의 문제를 풀이하며 외국어 번역 및 문장을 교정해준다.
                     </li>
                     <li>
-                        <strong>비지니스, 전문 분야:</strong>  마케팅 문구를 생성하고 고객 응대 자동화 및 데이터를 처리한다.
+                        <strong>창작, 콘텐츠 제작:</strong> 소설, 시, 스토리 등의 아이디어를 생성하고 이미지와 디자인 아이디어를 구상한다.
+                    </li>
+                    <li>
+                        <strong>프로그래밍, 기술 개발:</strong> 코드 작성 및 오류 해결과 알고리즘 설명 웹 제작 및 앱 개발 구조 설계를 도와준다.
+                    </li>
+                    <li>
+                        <strong>비지니스, 전문 분야:</strong> 마케팅 문구를 생성하고 고객 응대 자동화 및 데이터를 처리한다.
+                    </li>
                 </ul>
             </div>
-    </section>
+        </section>
 
         <section id="gemini-section" class="hidden-content">
             
-            <h2>Gemini 소개</h2>
-            <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png" alt="Gemini 로고" class="gemini-image">
+            <h2 class="gemini-header">Gemini 소개</h2>
+            <img src="https://www.wespeakiot.com/wp-content/uploads/2025/08/google-gemini-new-rainbow-colours-1120w630h-960x630.webp" alt="Gemini 로고" class="model-image" style="width: 300px;"/>
             
-            <p id="intro-text-detail">
+            <p class="desc-text">
                 Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델이다.<br>
                 더 복잡하고 창의적인 결과물을 만들어낼 수 있는 강력한 성능을 제공하여 다양한 응용 분야에서 활용된다.
             </p>
             
-            <h2>Gemini의 주요 성능</h2>
-            <p id="performance-text-detail">
+            <h2 class="gemini-header">Gemini의 주요 성능</h2>
+            <p class="desc-text">
                 Gemini는 울트라, 프로, 나노 세 가지 버전으로 제공되며, 특히 Ultra는 MMLU(대규모 다중 작업 언어 이해) 테스트에서 인간 전문가의 성능을 능가하는 최초의 모델이다. <br>
-                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징입니다.
+                텍스트뿐 아니라 오디오, 이미지, 비디오 등 복합적인 정보를 동시에 처리하는 멀티모달 능력이 특징이다.
             </p>
             
-            <h2>Gemini 작동 원리</h2>
-            <p id="mechanism-text-detail">
-                Gemini는 멀티모달리티(Multimodality)를 기반으로 작동합니다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
-                하나의 통합된 아키텍처 내에서 학습되고 처리된다는 것을 의미합니다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능합니다.
+            <h2 class="gemini-header">Gemini 작동 원리</h2>
+            <p class="desc-text">
+                Gemini는 멀티모달리티(Multimodality)를 기반으로 작동한다. 이는 텍스트, 이미지, 오디오와 같은 서로 다른 형태의 데이터가 개별 모듈이 아닌, <br>
+                하나의 통합된 아키텍처 내에서 학습되고 처리된다는 것을 의미한다. 이를 통해 복잡한 추론과 고차원적인 문제 해결이 가능하다.
             </p>
             
-            <h2>Gemini 버전별 특징</h2>
-            <div id="version-list">
+            <h2 class="gemini-header">Gemini 버전별 특징</h2>
+            <div class="version-list">
                 <ul>
                     <li>
                         <strong>Gemini Ultra:</strong> 가장 크고 강력한 버전으로, 매우 복잡한 작업을 위해 설계되었다. 대규모 추론 능력이 필요한 작업에 주로 사용된다. (유료/고성능)
@@ -250,39 +327,67 @@
                         <strong>Gemini Nano:</strong> 장치 내(On-device) AI를 위해 설계된 가장 효율적인 모델이다. 스마트폰과 같은 기기에서 직접 구동되어 속도가 빠르다. (장치 내 무료)
                     </li>
                 </ul>
-  </div> </section>
+            </div> 
+        </section>
 
 
-<section id="oo.ai-section" class="hidden-content">
-        
-        <h2 style="color:#8e44ad; font-size:1.8em; margin-top:30px; margin-bottom:10px;">oo.ai 소개</h2>
-        
-        <img src="https://www.google.com/s2/favicons?sz=128&domain=oo.ai" alt="oo.ai 로고" class="gemini-image" style="width: 100px; padding: 20px;">
+        <section id="grok-section" class="hidden-content">
+            <h2 class="grok-header">Grok 소개</h2>
+            <img src="https://sm.pcmag.com/pcmag_au/review/g/grok/grok_vgcm.jpg" alt="Grok 로고" class="model-image" style="width: 300px;"/>
 
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            oo.ai(오오에이아이)는 카카오브레인 출신 인력들이 설립한 '오픈리서치'의 AI 검색 플랫폼입니다.<br>
-            "검색은 답을 못해, oo.ai는 답을 해"라는 슬로건처럼, 단순히 링크를 나열하는 것이 아니라 수십 개의 웹 문서를 실시간으로 분석해 완성된 <strong style="color: #8e44ad;">보고서 형태의 답변</strong>을 제공합니다.
-        </p>
+            <p class="desc-text">
+                Grok(그록)은 일론 머스크가 설립한 <strong>xAI</strong>에서 개발한 AI입니다. 
+                <strong style="color: black;">X(구 트위터)의 실시간 데이터</strong>에 직접 접근할 수 있어, 세상에서 일어나는 일을 가장 빠르게 파악하고 답변합니다.
+                약간의 유머 감각과 반골 기질을 가진 'Fun Mode'를 탑재하여 기존 AI와 차별화된 경험을 제공합니다.
+            </p>
 
-        <h2 style="color:#8e44ad; font-size:1.8em; margin-top:30px; margin-bottom:10px;">주요 성능 및 특징</h2>
+            <h2 class="grok-header">Grok 버전 및 특징</h2>
+            <div class="version-list">
+                <ul>
+                    <li>
+                        <strong>Grok-2 (Beta):</strong> 최신 FLUX 이미지 생성 모델을 탑재하여 고품질 이미지를 생성하며, 추론 능력에서도 경쟁 모델 급의 성능을 보여줍니다.
+                    </li>
+                    <li>
+                        <strong>실시간성:</strong> X의 게시물들을 실시간으로 분석하여 뉴스보다 빠른 정보를 제공하는 것이 가장 큰 강점입니다.
+                    </li>
+                    <li>
+                        <strong>자유로운 답변:</strong> 기존 AI 모델들보다 정치적 올바름(PC)이나 검열에서 비교적 자유롭고 직설적인 답변을 추구합니다.
+                    </li>
+                </ul>
+            </div>
 
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            oo.ai는 병렬 처리 기술을 통해 100개 이상의 웹 문서를 동시에 읽어내며, 경쟁 서비스인 퍼플렉시티(Perplexity)보다 빠른 속도를 자랑합니다.<br>
-            특히 한국어 맥락 이해도가 매우 뛰어나며, 답변의 근거가 되는 출처(Reference)를 명확히 표시하여 정보의 신뢰성을 보장합니다.
-        </p>
-
-        <h2 style="color:#8e44ad; font-size:1.8em; margin-top:30px; margin-bottom:10px;">작동 원리</h2>
-        <p style="width:700px; margin:20px auto; font-size:1.1em; color:#555; line-height:1.5; text-align:left;">
-            사용자가 질문을 입력하면 AI가 질문의 의도를 파악하여 적절한 검색 키워드를 생성하고, 웹상의 방대한 정보를 실시간으로 수집합니다.<br>
-            수집된 정보 중 핵심 내용을 추출 및 요약한 뒤, 사용자가 읽기 편한 구조로 재구성하여 답변을 생성합니다.
-        </p>
-
-        <h2 style="color:#8e44ad; font-size:1.8em; margin-top:30px; margin-bottom:10px;">서비스 특징</h2>
-        <div id="version-list">
-            <ul>
-                <li><strong style="color: #8e44ad;">강력한 검색 엔진:</strong> 광고 없이 사용자가 진짜 원하는 답만 쏙 뽑아서 정리해 줍니다.</li>
-                <li><strong style="color: #8e44ad;">실시간성:</strong> 최신 뉴스나 트렌드를 반영하여 답변합니다.</li>
-                <li><strong style="color: #8e44ad;">투명한 출처:</strong> 각주를 통해 정보의 출처를 바로 확인할 수 있습니다.</li>
-            </ul>
-        </div>
-    </section>
+            <h2 class="grok-header">2025 최신 모델 비교 (GPT vs Gemini vs Grok)</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">구분</th>
+                        <th style="width: 26%;">Grok (xAI)</th>
+                        <th style="width: 27%;">GPT (OpenAI)</th>
+                        <th style="width: 27%;">Gemini (Google)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>실시간 정보</strong></td>
+                        <td style="color: #000; font-weight:bold;">★ 최상 (X 데이터)</td>
+                        <td>우수 (Bing 검색)</td>
+                        <td>우수 (Google 검색)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>이미지 생성</strong></td>
+                        <td>FLUX (사실적 묘사)</td>
+                        <td>DALL-E 3</td>
+                        <td>Imagen 3</td>
+                    </tr>
+                    <tr>
+                        <td><strong>주요 특징</strong></td>
+                        <td>실시간 이슈 파악,<br>유머러스한 톤</td>
+                        <td>코딩, 논리 추론,<br>가장 범용적</td>
+                        <td>긴 문맥(Long Context),<br>멀티미디어 이해</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
