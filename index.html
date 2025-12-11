@@ -6,271 +6,403 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Model Hub - 통합 비교</title>
 
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
     <style>
-        /* 1. 기본 설정 (배경 그라데이션) */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --text-main: #333333;
+            --text-sub: #555555;
+            --white-glass: rgba(255, 255, 255, 0.85);
+            --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
+            
+            /* Brand Colors */
+            --color-gpt: #00a67e;
+            --color-gemini: #1869d4;
+            --color-grok: #000000;
+        }
+
+        /* 1. 기본 설정 */
         body {
-            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
             margin: 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            text-align: center;
-            color: #333;
+            background: #f0f2f5;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,0) 0, hsla(253,16%,7%,0) 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0) 0, hsla(225,39%,30%,0) 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0) 0, hsla(339,49%,30%,0) 50%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 배경 데코레이션 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(24, 105, 212, 0.05), transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(0, 166, 126, 0.05), transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* 2. 내비게이션 스타일 */
         nav {
-            max-width: 800px;
+            max-width: 600px;
             width: 90%;
-            margin: 0 auto;
-            background-color: #000000;
-            padding: 15px 0;
-            margin-top: 60px;
-            border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-            position: relative;
-            z-index: 10;
+            margin: 40px auto 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         nav ul {
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         nav li {
-            display: inline-block;
+            flex: 1;
+            text-align: center;
         }
 
         nav a {
-            color: white;
+            color: #666;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             display: block;
-            padding: 10px 25px;
-            margin: 0 5px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            padding: 12px 0;
+            margin: 0 4px;
+            border-radius: 40px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         nav a:hover {
-            background-color: #333;
-            transform: translateY(-2px);
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #333;
         }
 
-        /* 3. 콘텐츠 박스 공통 스타일 */
+        /* 활성화된 탭 스타일 */
+        nav a.active {
+            background-color: #333;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
+        
+        /* 탭별 활성화 컬러 */
+        nav a.active[data-target="gpt-section"] { background-color: var(--color-gpt); }
+        nav a.active[data-target="gemini-section"] { background-color: var(--color-gemini); }
+        nav a.active[data-target="grok-section"] { background-color: var(--color-grok); }
+
+
+        /* 3. 콘텐츠 박스 스타일 */
         .content-container {
-            max-width: 800px;
-            width: 90%;
-            margin: 40px auto;
-            padding: 50px;
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            min-height: 500px;
+            max-width: 860px;
+            width: 92%;
+            margin: 0 auto 60px;
+            padding: 60px 50px;
+            background-color: var(--white-glass);
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+            min-height: 600px;
             text-align: left;
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: height 0.3s ease;
         }
 
-        /* 홈 화면 배경 패턴 */
-        #home-title-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM32 63c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm57-13c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 55c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM56 8c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-7 64c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-7 38c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm38-2c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm12-22c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            z-index: 0;
-            pointer-events: none;
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 40px 25px;
+                width: 95%;
+            }
+            h1.main-title { font-size: 2.5em !important; }
+            h2 { font-size: 1.5em !important; }
+            
+            #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text, #history-text-detail {
+                width: 100% !important;
+            }
+            
+            .comparison-table th, .comparison-table td {
+                padding: 8px 4px;
+                font-size: 0.85em;
+            }
+            
+            .gemini-image { width: 100% !important; }
         }
 
-        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text, #history-text-detail {
-            width: 700px; 
-            margin: 20px auto; 
-            font-size: 1.1em;
-            color: #555;
-            line-height: 1.6; 
-            text-align: left; 
-        } 
-
-        /* 유틸리티 및 애니메이션 */
+        /* 애니메이션 */
         .hidden-content {
             display: none !important;
         }
 
         .visible-content {
             display: block !important;
-            animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            animation: fadeIn 0.5s ease-out forwards;
         }
 
-        @keyframes slideUpFade {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 텍스트 스타일 */
+        .visible-content > * {
+            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+        .visible-content > *:nth-child(1) { animation-delay: 0.05s; }
+        .visible-content > *:nth-child(2) { animation-delay: 0.1s; }
+        .visible-content > *:nth-child(3) { animation-delay: 0.15s; }
+        .visible-content > *:nth-child(4) { animation-delay: 0.2s; }
+        .visible-content > *:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 4. 타이포그래피 */
         #home-title-section {
             text-align: center;
-            padding-top: 100px;
-            position: relative;
-            z-index: 1;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         h1.main-title {
-            font-size: 4em;
+            font-size: 3.5em;
             margin-bottom: 20px;
             color: #2c3e50;
-            font-weight: 900;
-            letter-spacing: -2px;
-            text-shadow: 2px 2px 0px #e0e0e0, 4px 4px 0px rgba(0, 0, 0, 0.1);
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #333 0%, #666 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
         }
 
         .intro-p {
-            font-size: 1.3em;
-            color: #555;
-            line-height: 1.6;
+            font-size: 1.25em;
+            color: #666;
+            line-height: 1.7;
+            max-width: 600px;
         }
 
         h2 {
             font-size: 1.8em;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-
-        .gpt-header {
-            color: #00a67e;
-        }
-
-        .gemini-header {
-            color: #1869d4;
-        }
-
-        .grok-header {
-            color: #000000;
-        }
-
-        .desc-text {
-            font-size: 1.1em;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .model-image {
-            max-width: 100%;
-            width: 300px;
-            display: block;
-            margin: 30px auto;
-            border-radius: 10px;
-        }
-
-        /* Gemini 콘텐츠 스타일 */
-        #gemini-section {
-            padding-top: 20px;
-        }
-
-        .gemini-image {
-            width: 500px;
-            display: block;
-            margin: 20px auto;
-        }
-
-        /* 리스트 스타일 */
-        .version-list ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .version-list li {
-            margin-bottom: 15px;
-            padding-left: 20px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0,0,0,0.05);
+            font-weight: 700;
             position: relative;
-            line-height: 1.6;
-            color: #444;
         }
 
-        .version-list li::before {
-            content: "●";
+        .gpt-header { color: var(--color-gpt); }
+        #gemini-section h2 { color: var(--color-gemini); }
+        .grok-header { color: var(--color-grok); }
+
+        .desc-text, 
+        #intro-text-detail, #mechanism-text-detail, #performance-text-detail, #version-list, #use-case-list, #comparison-text, #history-text-detail {
+            font-size: 1.05em;
+            color: #4a4a4a;
+            line-height: 1.75;
+            width: 100%;
+            margin: 10px 0 30px;
+            word-break: keep-all;
+        }
+
+        /* 이미지 스타일 */
+        .model-image, .gemini-image {
+            max-width: 100%;
+            display: block;
+            margin: 40px auto;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease;
+        }
+        
+        .model-image:hover, .gemini-image:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* ★★★ 유튜브 영상 반응형 스타일 (수정됨) ★★★ */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 비율 고정 */
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
+            background-color: #000; /* 영상 로딩 전 검은색 배경 */
+            border-radius: 16px;
+            margin: 30px 0;
+            box-shadow: var(--shadow-soft);
+        }
+        .video-wrapper iframe {
             position: absolute;
+            top: 0;
             left: 0;
-            font-size: 0.8em;
-            top: 4px;
+            width: 100%;
+            height: 100%;
         }
 
-        #gpt-section .version-list li::before {
-            color: #00a67e;
+        /* 5. 리스트 스타일 */
+        .version-list ul, #version-list ul, #use-case-list ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 15px;
         }
 
-        #gemini-section .version-list li::before {
-            color: #1869d4;
+        .version-list li, #version-list li, #use-case-list li {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+            line-height: 1.6;
+            color: #555;
+            position: relative;
+            transition: all 0.2s ease;
         }
 
-        #grok-section .version-list li::before {
-            color: #000000;
+        .version-list li:hover, #version-list li:hover, #use-case-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
 
-        /* 비교 테이블 스타일 */
+        strong {
+            font-weight: 700;
+            color: #222;
+        }
+
+        #gpt-section strong { color: var(--color-gpt); }
+        #gemini-section strong { color: var(--color-gemini); }
+        #grok-section strong { color: var(--color-grok); }
+
+        .generated-sample-img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+
+        /* 6. 비교 테이블 스타일 */
         .comparison-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 30px;
             font-size: 0.95em;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+            border-radius: 16px;
             overflow: hidden;
+            background: #fff;
         }
 
         .comparison-table th,
         .comparison-table td {
-            border: 1px solid #e0e0e0;
-            padding: 12px;
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 18px 15px;
             text-align: center;
         }
-
+        
         .comparison-table th {
-            background-color: #f8f9fa;
+            background-color: #fafafa;
             color: #333;
-            font-weight: bold;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
         }
 
         .comparison-table td:first-child {
-            font-weight: bold;
-            background-color: #fafafa;
+            font-weight: 700;
+            background-color: #fcfcfc;
             text-align: left;
+            color: #555;
+            padding-left: 20px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background-color: #f8fbfd;
         }
     </style>
 
     <script>
-        function showContent(contentId) {
+        function showContent(contentId, element) {
             const allSections = ['home-title-section', 'gpt-section', 'gemini-section', 'grok-section'];
-
+            
             allSections.forEach(sectionId => {
-                const element = document.getElementById(sectionId);
+                const contentEl = document.getElementById(sectionId);
                 if (sectionId === contentId) {
-                    element.classList.remove('hidden-content');
-                    element.classList.add('visible-content');
+                    contentEl.classList.remove('hidden-content');
+                    contentEl.classList.add('visible-content');
                 } else {
-                    element.classList.remove('visible-content');
-                    element.classList.add('hidden-content');
+                    contentEl.classList.remove('visible-content');
+                    contentEl.classList.add('hidden-content');
                 }
             });
+
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            if (element) {
+                element.classList.add('active');
+            } else {
+                const targetLink = document.querySelector(`nav a[onclick*="${contentId}"]`);
+                if(targetLink) targetLink.classList.add('active');
+            }
         }
 
         window.onload = function () {
-            showContent('home-title-section');
+            showContent('home-title-section', null);
         }
     </script>
 </head>
@@ -278,10 +410,10 @@
 <body>
     <nav>
         <ul>
-            <li><a onclick="showContent('home-title-section')">홈</a></li>
-            <li><a onclick="showContent('gpt-section')">GPT</a></li>
-            <li><a onclick="showContent('gemini-section')">Gemini</a></li>
-            <li><a onclick="showContent('grok-section')">Grok</a></li>
+            <li><a onclick="showContent('home-title-section', this)" data-target="home">홈</a></li>
+            <li><a onclick="showContent('gpt-section', this)" data-target="gpt-section">GPT</a></li>
+            <li><a onclick="showContent('gemini-section', this)" data-target="gemini-section">Gemini</a></li>
+            <li><a onclick="showContent('grok-section', this)" data-target="grok-section">Grok</a></li>
         </ul>
     </nav>
 
@@ -359,7 +491,7 @@
         <section id="gemini-section" class="hidden-content">
                 <h2>Gemini 소개</h2>
             <img src="https://www.gstatic.com/lamda/images/gemini_aurora_thumbnail_4g_e74822ff0ca4259beb718.png"
-                alt="Gemini 로고" class="gemini-image">
+                alt="Gemini 로고" class="gemini-image" style="width: 500px;">
 
             <p id="intro-text-detail">
                 Gemini는 텍스트, 이미지, 오디오 등 다양한 정보를 통합적으로 이해하고 생성하는 구글의 멀티모달 AI 모델이다.<br>
@@ -369,10 +501,16 @@
             <h2>탄생 배경과 역사</h2>
 
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/jV1vkHv4zq8" title="Google Gemini Introduction"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/jV1vkHv4zq8?referrerpolicy=strict-origin-when-cross-origin" 
+                    title="Google Gemini Introduction" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
             </div>
 
             <p id="history-text-detail">
